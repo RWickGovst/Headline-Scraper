@@ -27,52 +27,54 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/scraperHomework", { useNewUrlParser: true });
 
 app.get("/all", (req, res) => {
-  axios.get("https://www.theverge.com/").then ((response) => {
+  axios.get("https://www.theverge.com/").then((response) => {
     var $ = cheerio.load(response.data);
-      $("article h2").each((i, element) => {
-        var result = {}
-        result.title = $(this)
-          .children("a").text();
-        result.link = $(this)
-          .children("a").attr("href");
+    $("h2.c-entry-box--compact__title").each((i, element) => {
+      var result = {};
+      result.title = $(element).children().text();
+      result.link = $(element).find("a").attr("href");
 
-          db.Article.create(result).then ((dbArticle) => {
-            console.log(dbArticle);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      });
-     res.send("Scrape Complete");
+      db.Article.create(result).then((dbArticle) => {
+        console.log(dbArticle);
+      })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+    res.send("Scrape Complete");
   });
 });
 
 
-app.get("/articles", function(req, res) {
+app.get("/articles", function (req, res) {
   // TODO: Finish the route so it grabs all of the articles
-    // Find all Notes
-    db.Article.find({}, (err, articles) =>{
-      if(err) {
-        console.log(err);
-      }else {
-        res.json(articles);
-      }
-    })
+  // Find all Notes
+  db.Article.find({}, (err, articles) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(articles);
+    }
+  })
 });
 
-app.get("/articles/:id", function(req, res) {
+app.get("/articles/:id", function (req, res) {
 
-  db.Article.findOne({_id: req.params.id}).populate("note").then((dbArticles) => {
-    
+  return db.Article.findOne({ _id: req.params.id }).populate("note").then((dbArticles) => {
+
     res.json(dbArticles);
-  
-})
+  })
+});
+app.post("/articles/:id", function (req, res) {
+  db.Note.create(req.body).then((dbNote) => {
+    return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true })
+  })
 });
 
 // Listen on port 3000
-app.listen(3000, function() {
+app.listen(3000, function () {
   console.log("App running on port 3000!");
 });
