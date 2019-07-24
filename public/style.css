@@ -33,3 +33,7 @@
     .jumbotron {
         background-color: aqua
     }
+    .btn {
+        background-color: green;
+        float: right;
+    }

@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/saved">Saved Articles</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/scrape">Scrape</a>
+      </li>
+      
+    </ul>
+  </div>
+</nav>
+
+<div class ="container">
+    <h1>Articles</h1>
+    <div id="display-headlines">
+        {{#each db_headlines}}
+        {{#unless this.saved}}
+        <div class="row">
+            <div class = "col-10">
+                <h3>{{this.title}}</h3>
+                <h2>{{this.link}}</h2>
+            </div>
+
+        </div>
+        {{/unless}}
+        {{/each}}
+    </div>
+</div>
