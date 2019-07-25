@@ -12,6 +12,8 @@ var cheerio = require("cheerio");
 // Require all models
 var db = require("./models");
 
+var routes = require("./routes");
+
 var PORT = 3000;
 
 // Initialize Express
@@ -19,7 +21,7 @@ var app = express();
 app.engine("handlebars", exphbs({default: "main"}));
 app.set("view engine", "handlebars");
 
-// Configure middleware
+app.use(routes);
 
 // Use morgan logger for logging requests
 app.use(logger("dev"));
@@ -32,58 +34,9 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/scraperHomework", { useNewUrlParser: true });
 
-app.get('/', (req, res) => {
-  res.render("home");
-})
-app.get("/scrape", (req, res) => {
-  axios.get("https://www.theverge.com/").then((response) => {
-    var $ = cheerio.load(response.data);
-    $("h2.c-entry-box--compact__title").each((i, element) => {
-      var result = {};
-      result.title = $(element).children().text();
-      result.link = $(element).find("a").attr("href");
-      result.summary = $(element).find("a").text();
-      result.saved = false;
-
-      db.Article.create(result).then((dbArticle) => {
-        console.log(dbArticle);
-        res.render("home", {db_headlines: dbArticle})
-      })
-        .catch((err) => {
-          console.log(err);
-        });
-    });
-    res.send("Scrape Complete");
+  // Listen on port 3000
+  app.listen(3000, function () {
+    console.log("App running on port 3000!");
   });
-});
 
 
-app.get("/articles", function (req, res) {
-  // TODO: Finish the route so it grabs all of the articles
-  // Find all Notes
-  db.Article.find({}, (err, articles) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.json(articles);
-    }
-  })
-});
-
-app.get("/articles/:id", function (req, res) {
-
-  return db.Article.findOne({ _id: req.params.id }).populate("note").then((dbArticles) => {
-
-    res.json(dbArticles);
-  })
-});
-app.post("/articles/:id", function (req, res) {
-  db.Note.create(req.body).then((dbNote) => {
-    return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true })
-  })
-});
-
-// Listen on port 3000
-app.listen(3000, function () {
-  console.log("App running on port 3000!");
-});

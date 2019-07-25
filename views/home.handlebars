@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
+  <a class="navbar-brand" href="#">Headline Scraper</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -20,7 +20,7 @@
 </nav>
 
 <div class ="container">
-    <h1>Articles</h1>
+    <h1>Tech News</h1>
     <div id="display-headlines">
         {{#each db_headlines}}
         {{#unless this.saved}}
@@ -28,6 +28,7 @@
             <div class = "col-10">
                 <h3>{{this.title}}</h3>
                 <h2>{{this.link}}</h2>
+                <h4>{{this.summary}}</h4>
             </div>
 
         </div>
@@ -35,3 +36,17 @@
         {{/each}}
     </div>
 </div>
+
+<footer id="footer">
+<div class="card">
+  <div class="card-header">
+    Quote
+  </div>
+  <div class="card-body">
+    <blockquote class="blockquote mb-0">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+      <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
+    </blockquote>
+  </div>
+</div>
+</footer>
