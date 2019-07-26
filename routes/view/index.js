@@ -29,3 +29,6 @@ router.get('/', function(req, res) {
       res.send("Scrape Complete");
     };
   });
+
+  module.exports = router;
+  
