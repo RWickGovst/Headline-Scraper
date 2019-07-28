@@ -3,16 +3,18 @@ var db = require("../../models");
 
 //already at /articles
 router.get("/", function(req, res) {
+
     // TODO: Finish the route so it grabs all of the articles
     // Find all Notes
-    db.Article.find({}, function (err, articles) {
+    return db.Article.find({}, function (err, articles) {
       if (err) {
         console.log(err);
       } else {
-        res.json(articles);
-      }
-    })
-  });
+      
+      res.json(articles);
+    }
+    });
+});
 
   // this is effectively /articles/:id
   router.get("/:id", function (req, res) {
