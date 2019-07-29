@@ -1,13 +1,13 @@
-    /* * {
+    *{
         margin: 0;
         padding: 0;
     }
-    h1{
-        color: red;
+    h3{
+        background-color: grey;
     }
     html, body { 
         height: 100%;
-        background-color: light grey;
+        /* background-color: grey; */
         background-image: ("background.jpg");
     }
     #container {
@@ -46,5 +46,8 @@
     textarea {
         height: 200px;
         font-size: 20px;
-    } */
+    }
+   h2{
+       text-decoration-line: underline;
+   }
    
