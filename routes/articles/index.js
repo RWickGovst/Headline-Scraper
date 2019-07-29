@@ -1,8 +1,13 @@
 var router = require("express").Router();
 var db = require("../../models");
+router.get("/", function(req, res){
+  console.log("home route");
+  //res.redirect("/articles");
+  res.render("home");
+})
 
 //already at /articles
-router.get("/", function(req, res) {
+router.get("/articles", function(req, res) {
 
     // TODO: Finish the route so it grabs all of the articles
     // Find all Notes

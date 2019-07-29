@@ -1,5 +1,7 @@
 // Grab the articles as a json
-$.getJSON("/articles", function(data) {
+$.get("/articles", function(data) {
+  console.log("inside articles");
+  console.log(data);
     // For each one
     for (var i = 0; i < data.length; i++) {
       // Display the apropos information on the page
@@ -7,7 +9,7 @@ $.getJSON("/articles", function(data) {
     }
   });
   
-  
+   
   // Whenever someone clicks a p tag
   $(document).on("click", "p", function() {
     // Empty the notes from the note section

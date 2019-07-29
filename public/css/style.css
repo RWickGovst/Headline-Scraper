@@ -1,6 +1,9 @@
-    * {
+    /* * {
         margin: 0;
         padding: 0;
+    }
+    h1{
+        color: red;
     }
     html, body { 
         height: 100%;
@@ -43,5 +46,5 @@
     textarea {
         height: 200px;
         font-size: 20px;
-    }
+    } */
    
