@@ -36,41 +36,55 @@ router.get("/articles", function(req, res) {
   });
   
   router.get("/scrape", function(req, res) {
-    axios.get("https://www.theverge.com/").then, function(response) {
+    axios.get("https://www.theverge.com/").then(function(response) {
       var $ = cheerio.load(response.data);
-      $("h2.c-entry-box--compact__title").each, function(i, element) {
+      $("h2.c-entry-box--compact__title").each(function(i, element) {
         
         var result = {};
         // console.log(result);
 
-        result.title = $(this).children().text();
+        result.title = $(this).children("a").text();
         result.link = $(this).find("a").attr("href");
         result.summary = $(this).find("a").text();
         result.saved = false;
   
-        db.Article.create(result).then, function(dbArticle) {
+        db.Article.create(result).then(function(dbArticle) {
         //   console.log(dbArticle);
-          res.render("home", {db_headlines: dbArticle});
-          }
-          .catch, function(err) {
+        console.log(dbArticle);
+        res.render("home", {db_headlines: dbArticle});
+          })
+          .catch(function(err) {
             console.log(err);
-          };
-      };
+          });
+      });
       res.send("Scrape Complete");
-    };
+    });
   });
 
     router.get("/articles", function(req, res) {
       // TODO: Finish the route so it grabs all of the articles
         // Find all Notes
-        db.Article.find({}, (err, articles) =>{
+        db.Article.find({}, (function(err, articles){
           if(err) {
             console.log(err);
           }else {
             res.json(articles);
           }
-        })
+        }));
+    });
+  
+    // this is effectively /articles/:id
+  router.get("/:id", function (req, res) {
 
+    return db.Article.findOne({ _id: req.params.id }).populate("note").then, function(dbArticles) {
+  
+      res.json(dbArticles);
+    }
+  });
+  router.post("/:id", function (req, res) {
+    db.Note.create(req.body).then, function(dbNote) {
+      return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true })
+    }
   });
 
   module.exports = router;

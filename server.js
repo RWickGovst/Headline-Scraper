@@ -13,7 +13,7 @@ var app = express();
 var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({defaultLayout: "main"}));
 app.set("view engine", "handlebars");
-var routes = require("./routes/routes");
+var routes = require("./routes");
 app.use(routes);
 
 // Use morgan logger for logging requests
@@ -33,8 +33,9 @@ db.once('open', function(){
 });
 
   // Listen on port 3000
-  app.listen(3000, function () {
+  app.listen(PORT, function () {
     console.log("App running on port 3000!");
+    console.log(`check it at http://localhost:${PORT}`);
   });
 // Connect to the Mongo DB
 

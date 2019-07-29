@@ -1,5 +1,5 @@
 // Grab the articles as a json
-$.get("/articles", function(data) {
+$.getJSON("/articles", function(data) {
   console.log("inside articles");
   console.log(data);
     // For each one
