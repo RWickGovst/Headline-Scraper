@@ -21,7 +21,7 @@ $.getJSON("/articles", function(data) {
     // Now make an ajax call for the Article
     $.ajax({
       method: "GET",
-      url: "/articles" + thisId
+      url: "/articles/" + thisId
     })
       // With that done, add the note information to the page
       .then(function(data) {
