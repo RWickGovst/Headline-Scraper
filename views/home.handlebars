@@ -21,7 +21,7 @@
 
 <div class ="container">
     <h1>Tech News</h1>
-    <div id="display-headlines">
+    <div id="display-headlines" "articles">
         {{#each db_headlines}}
         {{#unless this.saved}}
         <div class="row">
@@ -30,7 +30,7 @@
                 <h2>{{this.link}}</h2>
                 <h4>{{this.summary}}</h4>
             </div>
-
+    <div id="notes"></div>
         </div>
         {{/unless}}
         {{/each}}
